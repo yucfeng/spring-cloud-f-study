@@ -1,0 +1,45 @@
+version: '3'
+services:
+  eureka-server:
+    build: ./eureka-server
+    image: yucfeng/eureka-server2
+    container_name: eureka-server
+    restart: always
+    ports:
+      - 8761:8761
+
+  eureka-client:
+    build:
+      context: ./eureka-client
+      dockerfile: Dockerfile
+    image: yucfeng/eureka-client1
+    container_name: eureka-client1
+    restart: always
+    ports:
+      - 8762:8762
+    links:
+      - eureka-server:8761
+
+  eureka-client2:
+      build:
+        context: ./eureka-client
+        dockerfile: Dockerfile-8763
+      image: yucfeng/eureka-client2
+      container_name: eureka-client2
+      restart: always
+      ports:
+        - 8763:8763
+      links:
+        - eureka-server:8761
+
+  service-ribbon:
+      build: ./service-ribbon
+      image: yucfeng/service-ribbon
+      container_name: service-ribbon
+      restart: always
+      ports:
+        - 8764:8764
+      links:
+        - eureka-server:8761
+        - eureka-client:8762
+        - eureka-client2:8763
