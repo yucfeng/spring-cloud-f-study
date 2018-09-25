@@ -1,0 +1,2 @@
+1. Why url is 'foo/dev'?
+2. I changed the 'spring.application.name=zuul', 'http://localhost:8888/foo/dev' still same as 'spring.application.name=config-server'
